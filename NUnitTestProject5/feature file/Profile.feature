@@ -19,7 +19,7 @@ Scenario: Add language tab
 	   When you choose the option and click on add
 	         | language  |     language level    |
 	         | Hindi     |     Fluent            |
-	   And  check for delete function
+	   Then the languges should be shown 
 
 @automation
 Scenario: successful Add to skill tab  

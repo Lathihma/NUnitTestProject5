@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
+using System.Threading;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -11,10 +12,10 @@ namespace NUnitTestProject5.feature_file
     public class ProfileFeatureSteps
     {
        
-        private static IWebDriver webDriver;
+        public static IWebDriver webDriver = new ChromeDriver();
         LoginPage loginpage = null;
         SkillsTab skillstab = new SkillsTab(webDriver);
-        Language language = new Language(webDriver);
+       readonly Language language = new Language(webDriver);
 
 
         // login feature
@@ -23,6 +24,7 @@ namespace NUnitTestProject5.feature_file
         {
             IWebDriver webdriver = new ChromeDriver();
             webdriver.Navigate().GoToUrl("http://localhost:5000/");
+            webdriver.Manage().Window.Maximize();
             loginpage = new LoginPage(webdriver);
         }
 
@@ -50,7 +52,8 @@ namespace NUnitTestProject5.feature_file
         [Given(@"To enter the languages set tab and click on addnew button")]
         public void GivenToEnterTheLanguagesSetTabAndClickOnAddnewButton()
         {
-            // language.ClickLanguage();
+            Thread.Sleep(5000);
+            language.ClickLanguage();
             language.clickAdd();
         }
 
@@ -60,13 +63,14 @@ namespace NUnitTestProject5.feature_file
         {
             dynamic data = table.CreateDynamicInstance();
             language.Add1((string)data.language, (string)data.level);
+            
+        }
+        [Then(@"the languges should be shown")]
+        public void ThenTheLangugesShouldBeShown()
+        {
             language.clickAddButton();
         }
-        [When(@"check for delete function")]
-        public void WhenCheckForDeleteFunction()
-        {
-            language.Del();
-        }
+
 
 
         // details to skills tab
